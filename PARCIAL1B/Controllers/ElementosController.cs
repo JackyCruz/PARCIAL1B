@@ -21,14 +21,14 @@ namespace PARCIAL1B.Controllers
 
         public IActionResult Get()
         {
-            List<Elementos> listadoEquipo = (from e in _ElementosContexto.Elementos
+            List<Elementos> listadoElementos = (from e in _ElementosContexto.Elementos
                                            select e).ToList();
 
-            if (listadoEquipo.Count() == 0)
+            if (listadoElementos.Count() == 0)
             {
                 return NotFound();
             }
-            return Ok(listadoEquipo);
+            return Ok(listadoElementos);
         }
 
 
@@ -45,15 +45,15 @@ namespace PARCIAL1B.Controllers
 
         public IActionResult Get(int id)
         {
-            Elementos? equipo = (from e in _ElementosContexto.Elementos
-                                 where e.id_equipos == id
+            Elementos? Elementos = (from e in _ElementosContexto.Elementos
+                                 where e.ElementoID == id
                                select e).FirstOrDefault();
 
-            if (equipo == null)
+            if (Elementos == null)
             {
                 return NotFound();
             }
-            return Ok(equipo);
+            return Ok(Elementos);
         }
 
 
@@ -69,15 +69,15 @@ namespace PARCIAL1B.Controllers
 
         public IActionResult FindByDescription(string filtro)
         {
-            Elementos? equipo = (from e in _ElementosContexto.Elementos
-                                 where e.descripcion.Contains(filtro)
+            Elementos? Elementos = (from e in _ElementosContexto.Elementos
+                                 where e.Elemento.Contains(filtro)
                                select e).FirstOrDefault();
 
-            if (equipo == null)
+            if (Elementos == null)
             {
                 return NotFound();
             }
-            return Ok(equipo);
+            return Ok(Elementos);
         }
 
 
@@ -121,38 +121,34 @@ namespace PARCIAL1B.Controllers
 
         [HttpPut]
         [Route("actualizar/{id}")]
-        public IActionResult ActualizarEquipo(int id, [FromBody] Elementos equipoModificar)
+        public IActionResult ActualizarEquipo(int id, [FromBody] Elementos ElementosModificar)
         {
             //Para actualizar un registro, se obtiene el registro original de la base de datos
             //al cual alteraremos alguna propiedad
             Elementos? ElementosActual = (from e in _ElementosContexto.Elementos
-                                     where e.id_equipos == id
+                                     where e.ElementoID == id
                                      select e).FirstOrDefault();
 
             //Verificamos que exista el registro segun su ID
-            if (equipoActual == null)
+            if (ElementosActual == null)
             { return NotFound(); }
 
             //Si se encuentra el registro, se alteran los campos modificables 
-            equipoActual.nombre = equipoModificar.nombre;
-            equipoActual.descripcion = equipoModificar.descripcion;
-            equipoActual.marca_id = equipoModificar.marca_id;
-            equipoActual.tipo_equipo_id = equipoModificar.tipo_equipo_id;
-            equipoActual.anio_compra = equipoModificar.anio_compra;
-            equipoActual.costo = equipoModificar.costo;
+            ElementosActual.ElementoID = ElementosModificar.ElementoID;
+            ElementosActual.EmpresaID = ElementosModificar.EmpresaID;
+            ElementosActual.Elemento = ElementosModificar.Elemento;
+            ElementosActual.CantidadMinima = ElementosModificar.CantidadMinima;
+            ElementosActual.UnidadMedida = ElementosModificar.UnidadMedida;
+            ElementosActual.Estado = ElementosModificar.Estado;
 
             //Se marca el registro como modificado en el contexto
             //y se envia la modificacion a la base de datos
 
-            _equiposContexto.Entry(equipoActual).State = EntityState.Modified;
-            _equiposContexto.SaveChanges();
+            _ElementosContexto.Entry(ElementosActual).State = EntityState.Modified;
+            _ElementosContexto.SaveChanges();
 
-            return Ok(equipoModificar);
+            return Ok(ElementosModificar);
         }
-
-
-
-
 
 
 
@@ -164,21 +160,21 @@ namespace PARCIAL1B.Controllers
 
         public IActionResult EliminarEquipo(int id)
         {
-            equipos? equipo = (from e in _equiposContexto.equipos
-                               where e.id_equipos == id
+            Elementos? Elementos = (from e in _ElementosContexto.Elementos
+                                 where e.ElementoID == id
                                select e).FirstOrDefault();
 
-            if (equipo == null)
+            if (Elementos == null)
             {
                 return NotFound();
 
 
-                _equiposContexto.equipos.Attach(equipo);
-                _equiposContexto.equipos.Remove(equipo);
-                _equiposContexto.SaveChanges();
+                _ElementosContexto.Elementos.Attach(Elementos);
+                _ElementosContexto.Elementos.Remove(Elementos);
+                _ElementosContexto.SaveChanges();
 
             }
-            return Ok(equipo);
+            return Ok(Elementos);
         }
     }
 }

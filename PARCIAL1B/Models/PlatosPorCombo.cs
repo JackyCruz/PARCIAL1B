@@ -9,6 +9,6 @@ namespace PARCIAL1B.Models
         public int? EmpresaID { get; set; }
         public int? ComboID { get; set; }
         public int? PlatoID { get; set; }
-        public int? EstadoID { get; set; }
+        public string Estado { get; set; }
     }
 }

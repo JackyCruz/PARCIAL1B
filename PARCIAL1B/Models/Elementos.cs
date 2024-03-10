@@ -6,8 +6,7 @@ namespace PARCIAL1B.Models
     {
         [Key]
         public int ElementoID { get; set; }
-        public int? EmpresaID { get; set; }
-        public int? GrupoID { get; set; }
+        public int EmpresaID { get; set; }
         public string Elemento { get; set; }
         public int? CantidadMinima { get; set; }
         public string UnidadMedida { get; set; }

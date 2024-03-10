@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 //Inyección por dependencia del string de conexion al contexto
 builder.Services.AddDbContext<ElementosContext>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("ElementosDbConnection")
+        builder.Configuration.GetConnectionString("PARCIAL1BDbConnection")
         )
     );
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
